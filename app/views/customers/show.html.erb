@@ -1,0 +1,80 @@
+
+<div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="height:600px;">
+          <div class="x_content">
+            <div class="container-fluid" style="margin-top: 100px">
+              <div>
+                <h2 class="section_heading_05 float_l">Customers Detail</h2>
+  <div class="float_r mb-10-ie">
+    <input type="button" value="Edit" class="button-link green-shadow btn_ht_cur" onclick="window.location.href ='<%= edit_customer_path(@customer) %>'"/>
+  </div>
+</div>
+<div class="col-lg-6 col-md-6">
+    <div class="clear"></div>
+    <div class="table.responsive">
+    <fieldset class="ui-corner-all bdr-ccc">
+      <table class="table" border="0" width="100%">
+        <tr>
+          <td style="width:33%"><label>Name:</label>
+            <%= @customer.first_name %>
+          </td>
+
+          <td style="width:33%" colspan="2"><label>Last Name:</label>
+            <%= @customer.last_name %>
+          </td>
+
+        </tr>
+        <tr>
+          <td colspan="6" class="td_border" ><div class="div_bdr"></div></td>
+        </tr>
+        <tr>
+          <td><label> Address 1: </label>
+            <%= @customer ? @customer.address_line1 : ""%>
+          </td>
+          <td><label> Address 2:</label>
+            <%= @customer ? @customer.address_line2 : ""%>
+          </td>
+          <td><label>City:</label>
+            <%= @customer ? @customer.city : ""%>
+          </td>
+          <td><label>State: </label>
+            <%= @customer ? @customer.state : ""%>
+          </td>
+          <td><label>Latitude: </label>
+            <%= @customer ? @customer.lat : ""%>
+          </td>
+          <td><label>Longitude: </label>
+            <%= @customer ? @customer.lng : ""%>
+          </td>
+
+        </tr>
+        <tr>
+          <td colspan="6" class="td_border" ><div class="div_bdr"></div></td>
+        </tr>
+        <tr>
+          <td><label>Zip Code:</label>
+            <%= @customer ? @customer.zip_code : ""%>
+          </td>
+        </tr>
+        
+       </table>
+        
+    </fieldset>
+    </div>
+</div>
+<div class="col-lg-6 col-md-6">
+<div id="map" style="width:100%;height:600px">
+  <%= render partial: 'map' %>
+
+</div>
+</div>
+
+
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>

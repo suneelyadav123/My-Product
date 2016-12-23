@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> 
+	New Dispatch Track</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="nav-md nav-top  pace-done">
+  <div class="container body">
+    <div class="main_container">
+  		<%= render partial: 'layouts/header' %>
+  </div>
+</div>
+  
+<div class="right_col" role="main" style="min-height: 272px;">
+
+	<%= yield %>
+
+</div>
+<%= render partial: 'layouts/footer' %>
+
+</body>
+</html>

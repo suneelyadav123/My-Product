@@ -1,0 +1,94 @@
+
+<div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="height:600px;">
+          <div class="x_content">
+            <div class="container-fluid" style="margin-top: 100px">
+              <div>
+                <h2 class="section_heading_05 float_l">Orders Detail</h2>
+  <div class="float_r mb-10-ie">
+    <input type="button" value="Edit" class="btn btn-primary" onclick="window.location.href ='<%= edit_order_path(@order) %>'"/>
+  </div>
+</div>
+<div class="col-lg-6 col-md-6">
+    <div class="clear"></div>
+    <div class="table responsive">
+    <fieldset class="ui-corner-all bdr-ccc">
+      <table class="table" border="0" width="100%">
+        <tr>
+        <td style="width:33%"><label>Order Num:</label>
+            <%= @order.order_num %>
+          </td>
+
+          <td style="width:33%"><label>Description:</label>
+            <%= @order.description %>
+          </td>
+          <td style="width:33%" colspan="2"><label>First Name:</label>
+            <%= @order.customer.first_name %>
+          </td>
+
+
+          <td style="width:33%" colspan="2"><label>Last Name:</label>
+            <%= @order.customer.last_name %>
+          </td>
+
+        </tr>
+        <tr>
+          <td colspan="6" class="td_border" ><div class="div_bdr"></div></td>
+        </tr>
+        <tr>
+          <td><label> Address 1: </label>
+            <%= @order.customer ? @order.customer.address_line1 : ""%>
+          </td>
+          <td><label> Address 2:</label>
+            <%= @order.customer ? @order.customer.address_line2 : ""%>
+          </td>
+          <td><label>City:</label>
+            <%= @order.customer ? @order.customer.city : ""%>
+          </td>
+          <td><label>State: </label>
+            <%= @order.customer ? @order.customer.state : ""%>
+          </td>
+          <td><label>Latitude: </label>
+            <%= @order.customer ? @order.customer.lat : ""%>
+          </td>
+          <td><label>Longitude: </label>
+            <%= @order.customer ? @order.customer.log : ""%>
+          </td>
+
+        </tr>
+        <tr>
+          <td colspan="6" class="td_border" ><div class="div_bdr"></div></td>
+        </tr>
+        <tr>
+          <td><label>Zip Code:</label>
+            <%= @customer ? @customer.zip_code : ""%>
+          </td>
+        </tr>
+        
+       </table>
+        
+    </fieldset>
+    </div>
+    <h2> Order Item List </h2>
+      <div >
+        <%= render partial: 'order_items_list'%>
+      </div>
+
+</div>
+
+<div class="col-lg-6 col-md-6">
+<div id="map" style="width:100%;height:600px">
+  <%= render partial: 'customers/map' %>
+
+</div>
+</div>
+
+
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>

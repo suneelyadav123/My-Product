@@ -1,0 +1,43 @@
+  <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="height:600px;">
+          <div class="x_content">
+            <div class="container-fluid" style="margin-top: 100px">
+              <div id="map" style="width:100%;height:600px"></div>
+
+              <script>
+              function myMap() {
+                var mapCanvas = document.getElementById("map");
+                var lat = <%= @customer.try(:lat) %>
+                var lng = <%= @customer.try(:log) %>
+                
+                if (lat == null && lng == null){
+                   var mapOptions = {
+                    center: new google.maps.LatLng(0,0),
+                  zoom: 2
+                  };
+              }else{
+                 var mapOptions = {
+                  center: new google.maps.LatLng(lat,lng),
+                  zoom: 5
+               };
+              }
+                var map = new google.maps.Map(mapCanvas, mapOptions);
+
+                
+                var beachMarker = new google.maps.  Marker({
+                           position: {lat: lat, lng: lng},
+                  map: map,
+                  title: "<%= @customer.try(:address_line1) %>,<%= @customer.try(:address_line2) %>,<%= @customer.try(:city) %>,<%= @customer.try(:state) %>" 
+
+                 });
+              }
+              </script>
+
+              <script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>             

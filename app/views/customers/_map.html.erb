@@ -1,0 +1,8 @@
+<script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+  	setMap();
+  	myMap(<%= @customer.try(:lat).to_f %> , <%= @customer.try(:lng).to_f %>);
+  	
+  })
+</script>

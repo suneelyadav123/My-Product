@@ -1,0 +1,58 @@
+	<div class="clearfix"></div>
+	  <div class="row" style="margin-top: 15px;">
+	    <div class="col-md-12 col-sm-12 col-xs-12">
+	      <div class="x_panel" style="height:600px;">
+	        <div class="x_content">
+	          <div class="container-fluid" style="margin-top: 90px;">
+<div class="row" style="padding:10px;">
+	<div class="col-md-10" style="padding-top:10px;">
+		<p style="font-size:30px;">Listing Orders</p>
+	</div>
+	<div class="col-md-2">
+		<%= link_to 'New Order', new_order_path , class: 'btn btn-success' %>
+	</div>
+</div>
+
+	  <div class="table-responsive">          
+		<table border="0" cellspacing="0" cellpadding="0" width="100%" class="table table-bordered">
+		  <thead>
+		    <tr class="success">
+		      <th> Order Num </th>
+		      <th> Description </th>
+		      <th> Order Placed On </th>
+		      <th>Name</th>
+		      <th>Last Name</th>
+		      <th>Address Line1</th>
+		      <th>Address Line2</th>
+		      <th>City</th>
+		      <th>State</th>
+		      <th colspan="8"></th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <% @orders.each do |order| %> 
+		      <tr>
+		      	<td> <%= order.order_num %> </td>
+		      	<td> <%= order.description %> </td>
+		      	<td> <%= order.date.to_date %> </td>
+		        <td><%= order.customer.try(:first_name) %></td>
+		        <td><%= order.customer.try(:last_name )%></td>
+		        <td><%= order.customer.try(:address_line1) %></td>
+		        <td><%= order.customer.try(:address_line2) %></td>
+		        <td><%= order.customer.try(:city) %></td>
+		        <td><%= order.customer.try(:state) %></td>
+		        <td><%= link_to 'Show', order , class: 'btn btn-success btn-xs' %></td>
+		        <td><%= link_to 'Edit', edit_order_path(order) , class: 'btn btn-primary btn-xs' %></td>
+		        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger btn-xs' %></td>
+		      </tr>
+		    <% end %>
+
+		  </tbody>
+		</table>
+	</div>
+
+	<br>
+
+	
+	</div>

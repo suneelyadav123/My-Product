@@ -1,0 +1,120 @@
+<%= form_for (@customer), html: {class: 'form-horizontal form-label-left', data: {"parsley-validate" => ""}} do |f| %>
+  <%= f.hidden_field :lat %>
+  <%= f.hidden_field :lng %>
+  <% if @customer.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@customer.errors.count, "error")} prohibited this customer from being saved:" %>
+      </h2>
+      <ul>
+        <% @customer.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg      %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">First Name</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :first_name, class: 'form-control col-md-8 col-xs-12', required: true %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">Last Name</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :last_name, class: 'form-control col-md-8 col-xs-12', required: true %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">Address Line 1</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :address_line1, class: 'form-control col-md-8 col-xs-12' , required: true  %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">Address Line 2</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :address_line2, class: 'form-control col-md-8 col-xs-12' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">City</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :city, class: 'form-control col-md-8 col-xs-12' , required: true%>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">State</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :state, class: 'form-control col-md-8 col-xs-12', required: true , :onChange => "getAddress()" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4 col-xs-12" for="first-name">Zip Code</label>
+        <div class="col-md-8 col-xs-12">
+          <%= f.text_field :zip_code, class: 'form-control col-md-8 col-xs-12' %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class="text-center">
+          <%= f.submit 'Save Customer' , class:'btn btn-primary' %>
+        </div>
+
+      </div>    
+    </div>
+    <div class="col-lg-6 col-md-6">
+    <div id="map" style="width:100%;height:600px">
+      <%= render partial: 'map' %>
+    </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+jQuery(document).ready(function(){
+  jQuery('customer_address_line1').focus();
+  jQuery('customer_address_line2').focus();
+  jQuery('city').focus();
+  jQuery('state').focus();
+
+})
+
+ var getAddress = function getAddress(){
+  var address = jQuery('#customer_address_line1').val()
+  var address2 = jQuery('#customer_address_line2').val()
+  var city = jQuery('#customer_city').val()
+  var state = jQuery('#customer_state').val()
+  
+    jQuery.getJSON( {
+      url  : 'https://maps.googleapis.com/maps/api/geocode/json',
+      data : {
+          sensor  : false,
+          address : address,
+          city: city,
+          state: state
+      },
+      success : function(response) {
+        
+          console.log(response);
+          var lat = response.results[0].geometry.location.lat
+          var lng= response.results[0].geometry.location.lng
+          
+          
+          
+          jQuery('#customer_lat').val(lat)
+          jQuery('#customer_lng').val(lng)
+          myMap(lat , lng );
+          
+      },
+      error: function(e){
+        alert("Please Enter Proper Address");
+      }
+    
+ });
+}
+</script>

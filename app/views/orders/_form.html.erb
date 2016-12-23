@@ -1,0 +1,154 @@
+<%= form_for (@order), html: {class: 'form-horizontal form-label-left', data: {"parsley-validate" => ""}} do |f| %>
+  <%= f.hidden_field :lat %>
+  <%= f.hidden_field :lng %>
+  <%= f.hidden_field :customer_id %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@customer.errors.count, "error")} prohibited this customer from being saved:" %>
+      </h2>
+      <ul>
+        <% @order.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg      %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+         <h3 class="section_heading_04">Orders</h2>
+         <div class="form-group">
+           <label class="control-label col-md-4 col-xs-12" for="first-name">Order Date</label>
+           <div class="col-md-4 col-xs-12">
+              <%= f.date_field :date, class: 'form-control col-md-8 col-xs-12 date' %>
+           </div>
+         </div>
+         <div class="form-group">
+           <label class="control-label col-md-4 col-xs-12" for="first-name">Customer Fetch</label>
+           <div class="col-md-4 col-xs-12">
+             <input class="form-control col-md-8 col-xs-12 typeahead" type="text" placeholder="" >
+
+           </div> 
+         </div>
+         <div class="form-group">
+            <label class="control-label col-md-4 col-xs-12" for="first-name">Description</label>
+            <div class="col-md-4 col-xs-12">
+              <%= f.text_field :description, class: 'form-control col-md-8 col-xs-12' %>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="control-label col-md-4 col-xs-12" for="first-name">Email</label>
+            <div class="col-md-4 col-xs-12">
+               <%= f.email_field :email, class: 'form-control col-md-8 col-xs-12' %>  
+          </div>
+         </div>
+
+        <h4 class="section_heading_04">Order Items</h2>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 table-responsive">
+            <table border ="1", cellspacing="0" cellpadding="0" id ="my_table" class="table" >
+              <tr class="info">
+                <thead> 
+                  <th style="width:10%"> Item Number </th>
+                  <th style="width:10%"> Description</th>
+                  <th style="width:10%"> Quantity </th>
+                  <th style="width:10%"> Price </th>
+                  <th>Action</th>
+                </thead>
+              </tr>
+              <tbody>
+                <%= f.nested_fields_for :order_items do |t| %>
+                  <tr>
+                      <td> <%= t.text_field :item_number %> </td>
+                      <td> <%= t.text_field :description %> </td>
+                      <td> <%= t.text_field :quantity %> </td>
+                      <td> <%= t.text_field :price %> </td>
+                      <td> <%= t.remove_nested_fields_link "Remove" %> </td>
+                  </tr>
+                <% end %> 
+              </tbody>
+              
+            </table>
+            <p><%= f.add_nested_fields_link  :order_items , 'Add New OrderItem'%></p>
+
+          </div>
+       </div> 
+       <br>
+       <br>
+       <div class='form-group'>
+         <div class="text-center">
+            <%= f.submit 'Create Order' , class:'btn btn-primary trigger_email' %>
+         </div>
+       </div>    
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div id="map" style="width:100%;height:600px">
+          <%= render partial: 'customers/map' %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+  
+  jQuery(document).ready(function(){
+
+    setMap();
+  })
+  var bloodhound = new Bloodhound({
+  datumTokenizer: function (d) {
+    return Bloodhound.tokenizers.whitespace(d.value);
+  },
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+  // sends ajax request to /typeahead/%QUERY
+  // where %QUERY is user input
+  remote: {url: '/typeahead/%QUERY', wildcard: '%QUERY'},
+  limit: 50
+});
+bloodhound.initialize();
+
+// initialize typeahead widget and hook it up to bloodhound engine
+// #typeahead is just a text input
+$('.typeahead').typeahead(null, {
+  displayKey: 'first_name',
+  source: bloodhound.ttAdapter(),
+  limit: 10
+});
+
+// this is the event that is fired when a user clicks on a suggestion
+$('.typeahead').bind('typeahead:selected', function(event , customer) {
+  event.preventDefault();
+  $('#order_customer_id').val(customer.id);            
+  myMap(customer.lat, customer.log);
+
+});
+
+
+function placeMarker(lat ,lng) {
+var location = new google.maps.LatLng(lat,lng);
+  
+ 
+ console.log(location)
+  // marker.myMap(null);
+    alert(lat);
+    jQuery('#order_lat').val(lat)
+    jQuery('#order_lng').val(lng)
+
+
+}
+
+
+
+</script>
+
+
+
+
+
+

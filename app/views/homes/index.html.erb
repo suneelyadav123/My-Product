@@ -1,0 +1,88 @@
+  <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="height:600px;">
+          <div class="x_content">
+            <div class="container-fluid" style="margin-top: 100px">
+              <div id="map" style="width:100%;height:600px">
+
+                <%= render partial: 'customers/map' %>
+                </div>
+                <br>
+                <br>
+              <div> 
+                 <div class='col-sm-2'>
+                      <input type='text' class="form-control" id='datetimepicker4' placeholder="Enter Date " />
+                 </div>
+                 <br>
+                 <br>
+
+                <%= render partial: 'today_orders' %>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>             
+  <script type="text/javascript">
+    
+    jQuery(document).ready(function(){
+
+      today_orders();
+      setMap();
+    })
+
+    var today_orders = function today_orders(){
+      var date = jQuery('#datetimepicker4').val()
+      var markers = []
+      jQuery.ajax({
+
+        url: '/today_orders',
+        type: 'get',
+        dataType:'json',
+        data: {date: date},
+        success: function(res){
+          if(res){
+              $.each(res,function(key , value){
+                  var $tr = $('<tr/>');
+
+                  // $tr.append($('<td/>').html(value['id']));
+                  $tr.append($('<td/>').html(value['order_num']));
+                  // $tr.append($('<td/>').html(value['customer_id']));
+                  $('#my_table tr:last').before($tr);
+                  var lat = value['lat']
+                
+
+                  var lng = value['lng']
+                  var nh = value['lng']
+                  console.log(value);
+                  
+                markers.push([lat ,lng]);
+               })  
+               displayMultipleMarkers(markers);    
+        }
+        else
+          $('#my_table tr:last').append("None Found");
+        },
+        error: function(e)
+        {
+          alert("E");
+        }
+
+      })
+    }    
+    $('#datetimepicker4').datepicker({
+      format: "dd/mm/yyyy",
+      autoclose: true
+
+    });
+      
+    $(document).on('click', '.day', function(){
+      $('#my_table tr').html('');
+      today_orders();
+    });
+
+
+  </script>
