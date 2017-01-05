@@ -22,6 +22,7 @@ class HomesController < ApplicationController
     @date = params[:date].present? ? params[:date].to_date : Date.today
     @todays_orders  = Order.where(date: @date)
     render json: @todays_orders
+    p @todays_orders
   end
 
 

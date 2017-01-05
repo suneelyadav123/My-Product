@@ -513,3 +513,13 @@ fieldset[disabled] .btn-success.active {
   border-color: #FFFFFF !important; 
   margin-bottom:10px;
 }
+.var-info input{
+  width:90px;
+}
+.order  thead th{
+  width:90px;
+}
+a, a:visited, a:hover, a:active {
+  color: inherit !important;
+}
+

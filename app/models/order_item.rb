@@ -1,10 +1,20 @@
 class OrderItem < ActiveRecord::Base
-  belongs_to :order ,  dependent: :destroy
-  after_update :send_email_after_change
+  
+  belongs_to :order
+  # before_destroy :check_order_item
+  # before_create :send_notification_email
+  #after_create :send_notification_email
 
-  def send_email_after_change
+  
+
+  def check_order_item
+
+  	binding.pry
+  	@order_items = self
   	email = self.order.email
-  	OrderMailer.send_email(email).deliver_now if (self.changed? && self.changed? == true)
+  	self.order.send_notification_email(@order_items)
+ 	 OrderMailer.send_email(email , @order_items).deliver_now 
+  	
   end
-
+  
 end

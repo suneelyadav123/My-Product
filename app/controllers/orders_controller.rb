@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
 	before_action  :set_order, only:[ :show , :edit ,:update , :destroy] 
 	
 	def index
-		@orders = Order.all
+		@orders = Order.includes(:customer).all
 	end
 
 	def show
@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
 	end
 
 	def edit
-		3.times { @order.order_items}
+		@order = Order.find(params[:id])
 	end
 
 	def new
@@ -32,9 +32,16 @@ class OrdersController < ApplicationController
 	end
 
 	def update
-
+		order_items = @order.order_items
+		#order_items=[]
+		binding.pry
 		respond_to do |format|		
-	      if @order.update(order_params)
+	      if @order.update_attributes(order_params)
+	  	      modified_items = order_items - @order.order_items || []
+	  		  binding.pry
+	  	 	  @order.order_items.collect {|a| modified_items.push a if a.changed?}
+	  	 	  binding.pry		      		
+	  		  @order.send_notification_email(modified_items) 
 
 	         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
 	         format.json { render :show, status: :ok , location: @order }
@@ -47,12 +54,11 @@ class OrdersController < ApplicationController
 	def destroy
 	  @order.destroy
    		respond_to do |format|
-      		format.html { redirect_to order_url, notice: 'Customer was successfully destroyed.' }
+      		format.html { redirect_to @order, notice: 'Customer was successfully destroyed.' }
       		format.json { head :no_content }
     	end
 	end
 	private
-	
 
 		def set_order
 			@order = Order.find(params[:id])

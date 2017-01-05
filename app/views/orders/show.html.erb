@@ -51,10 +51,10 @@
             <%= @order.customer ? @order.customer.state : ""%>
           </td>
           <td><label>Latitude: </label>
-            <%= @order.customer ? @order.customer.lat : ""%>
+            <%= @order ? @order.lat : ""%>
           </td>
           <td><label>Longitude: </label>
-            <%= @order.customer ? @order.customer.log : ""%>
+            <%= @order ? @order.lng : ""%>
           </td>
 
         </tr>
@@ -80,7 +80,7 @@
 
 <div class="col-lg-6 col-md-6">
 <div id="map" style="width:100%;height:600px">
-  <%= render partial: 'customers/map' %>
+  <%= render partial: 'shared/map' , locals: {:lat => @order.lat , :lng => @order.lng , :order_num => @order.order_num , :address_line => @order.customer.address_line1 , :state => @order.customer.state} %>
 
 </div>
 </div>

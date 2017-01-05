@@ -35,7 +35,7 @@
 		      <tr>
 		      	<td> <%= order.order_num %> </td>
 		      	<td> <%= order.description %> </td>
-		      	<td> <%= order.date.to_date %> </td>
+		      	<td> <%= order.date%> </td>
 		        <td><%= order.customer.try(:first_name) %></td>
 		        <td><%= order.customer.try(:last_name )%></td>
 		        <td><%= order.customer.try(:address_line1) %></td>

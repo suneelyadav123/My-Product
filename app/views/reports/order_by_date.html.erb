@@ -1,0 +1,134 @@
+<div class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+	  <div class="x_panel" style="height:600px;">
+	     <div class="x_content">
+	         <div class="container-fluid" style="margin-top: 130px;">
+	            <div>
+	         			<label for="from">From</label> <input type="text" id="StartDate" name="from" class="date_picker" /> <label for="to">to</label> <input type="text" id="EndDate" name="to" class="date_picker" , required="required" />
+	         			<input id = "submit" type="submit"  />
+                <button id="button" class="autocompare">Hide series</button>
+        		</div>
+    				<br>
+		          <div id = "orders_chart" style="width:700px; height: 300px;" > 
+
+
+			      </div>
+		     </div>	
+		   </div>  
+		</div> 
+	</div>
+</div>		     
+
+<script type="text/javascript">
+	
+	$(document).ready(function()
+	{
+		chart();
+	});
+    
+    var chart = function chart(data, categories ){
+      
+			new Highcharts.Chart({
+				chart: {
+					type: 'column',
+					renderTo: "orders_chart"
+
+				},
+				title: {
+					text: "Orders by Date"
+				},
+
+				xAxis: [{
+					type: "datetime",
+          categories: categories
+
+         
+					}],
+				yAxis: {
+					title: {
+						text: "Count"
+					}
+				},
+				series: [{
+					name: "BarChart",
+            		type: 'column',
+            		data: data
+           			},
+           			 {
+           			name: 'Line',
+            		type: 'spline',
+            		data: data,
+                visible: false
+                
+				}]
+			});
+		}
+    
+    $("#button").click(function () {
+
+       var sample_chart = $('#orders_chart').highcharts();
+
+        var series = sample_chart.series[1];
+        if (series.visible) {
+            series.hide();
+            $('#button').html('Show series');
+        } else {
+            series.show();
+            $('#button').html('Hide series');
+        }
+
+
+      
+    });
+
+</script>
+
+<script>
+  
+
+  $(document).ready(function() {
+  	  $.noConflict();  //Not to conflict with other scripts
+
+    $('.date_picker').datepicker({
+    	 format: "dd/mm/yyyy",
+      autoclose: true
+    });
+
+    $("#EndDate").change(function () {
+      var startDate = $("#StartDate").val();
+      var d1 = startDate.split('/');
+      d1 = new Date(d1.pop(), d1.pop() - 1, d1.pop());
+      var endDate = $("#EndDate").val();
+      var d2 = endDate.split('/');
+      d2 = new Date(d2.pop(), d2.pop() - 1, d2.pop());
+      if (d1 > d2) {
+        $('#date_error').html("End date should be greater than Start date");
+        $("#EndDate").val("");
+      }
+      else {
+        $('#date_error').html("");
+      }
+    });
+    
+  });
+
+  $('#submit').click(function(){
+  	start_date = $('#StartDate').val()
+  	end_date = $('#EndDate').val()
+  	
+  	$.ajax({
+  		url: '/order_by_date',
+  		type: 'get',
+        dataType:'json',
+  		data: { start_date: start_date , end_date: end_date},
+  		success: function(result){
+        categories = Object.values(result)
+        data = Object.keys(result)
+  			chart(categories  , data);
+  		}
+  	})	
+
+  })
+
+</script>

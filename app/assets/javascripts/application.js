@@ -12,14 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap-sprockets
-//= require map
-//= typeahead.bundle
-
 //= require nested_form_fields
-//= bootstrap-datepicker
-
 //= require_tree .
+//= typeahead.bundle
+//= bootstrap-datepicker
+//= highcharts
+
+
+
+
 
             

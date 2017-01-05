@@ -23,7 +23,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/"><img src = "/assets/dispatchtrack_logo.png" width="120px"> </a>
+                <a class="navbar-brand" href="#" onclick="window.location='/'"><img src = "/assets/dispatchtrack_logo.png" width="120px"> </a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -38,10 +38,17 @@
 
                     </li>
                     <li class="page-scroll">
-                        <a href="/orders">Orders</a>
+                        <a href="/orders" onclick= "location.reload();">Orders</a>
                     </li>
                     <li class="page-scroll">
                         <a href="/customers">Customers</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/order_by_date">Order By Date</a></li>
+                            <li><a href="/order_items_by_date">OrderItems by Date</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

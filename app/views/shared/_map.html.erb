@@ -1,0 +1,10 @@
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+  	setMap();
+  	myMap(<%= lat.to_f %> , <%= lng.to_f %> );
+  	var message = "<%= state %> , <%= address_line %> , <%= order_num %>" 
+  	
+  	showinfoWindow(message);
+  })
+</script>

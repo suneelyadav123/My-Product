@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :widgets
   resources :homes
   resources :products
   # The priority is based upon order of creation: first created -> highest priority.
@@ -15,7 +16,8 @@ Rails.application.routes.draw do
    get '/render_customer_data' => 'orders#render_customer_data'
    get 'typeahead/:query' => 'customers#typeahead'
 
-
+   get 'order_by_date' => 'reports#order_by_date'
+   get 'order_items_by_date' => 'reports#order_items_by_date'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

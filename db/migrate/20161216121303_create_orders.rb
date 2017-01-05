@@ -2,7 +2,7 @@ class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
       t.string :order_num
-      t.datetime :date
+      t.date :date
       t.text :description
       t.float :lat
       t.float :lng
